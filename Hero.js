@@ -1,19 +1,12 @@
 class Hero extends Humanoid {
-    constructor(x, y) {
-        super(x, y, 'blue')
+    constructor(x, y, controls) {
+        super(x, y, controls, 'blue')
 
         this.speed = 1;
-
-        this.coordinate = { x: 0, y: 0 };
         this.moveMeTo = null;
 
-        addEventListener('mousemove', e => {
-            this.coordinate.x = e.clientX;
-            this.coordinate.y = e.clientY;
-        });
-
         addEventListener('click', () => {
-            this.moveMeTo = { ...this.coordinate };
+            this.moveMeTo = { ...this.controls.coordinate };
         })
     }
 

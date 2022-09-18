@@ -1,6 +1,6 @@
 class Enemy extends Humanoid {
-    constructor(x ,y) {
-        super(x, y);
+    constructor(x ,y, controls) {
+        super(x, y, controls);
     }
 
     draw(ctx) {

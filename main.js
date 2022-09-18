@@ -11,10 +11,12 @@ addEventListener('resize', function () {
 
 let hero = null;
 let enemy = null;
+let controls = null;
 
 function init() {
-    hero = new Hero(10, 10);
-    enemy = new Enemy(100, 100);
+    controls = new Controls();
+    hero = new Hero(10, 10, controls);
+    enemy = new Enemy(100, 100, controls);
 }
 
 function animate() {
