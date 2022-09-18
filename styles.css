@@ -10,7 +10,25 @@ body {
     height: 100vh;
     background: black;
 }
-canvas {
+
+.settings {
+    position: absolute;
     border: 1px solid black;
+    top: 0;
+    right: 0;
+    width: 30vw;
+    height: 100vh;
+    background: white;
+    display: grid;
+    justify-content: center;
+}
+
+canvas {
+    position: absolute;
+    border: 1px solid black;
+    top: 0;
+    left: 0;
+    width: 70vw;
+    height: 100vh;
     background: darkgray;
 }
