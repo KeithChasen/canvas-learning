@@ -1,6 +1,6 @@
-class Hero extends Humanoid {
-    constructor(x, y) {
-        super(x, y, 'blue')
+class Enemy extends Humanoid {
+    constructor(x ,y) {
+        super(x, y);
     }
 
     draw(ctx) {

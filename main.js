@@ -19,14 +19,18 @@ addEventListener('resize', function () {
 });
 
 let hero = null;
+let enemy = null;
+
 function init() {
-    hero = new Hero(10, 10)
+    hero = new Hero(10, 10);
+    enemy = new Enemy(100, 100);
 }
 
 function animate() {
     requestAnimationFrame(animate);
 
     hero.draw(ctx);
+    enemy.draw(ctx);
 }
 
 init();
