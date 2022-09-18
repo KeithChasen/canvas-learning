@@ -1,6 +1,6 @@
 class Hero extends Humanoid {
     constructor(x, y, controls) {
-        super(x, y, controls, 'blue')
+        super(x, y, controls, new Color(0, 0, 255, 1))
 
         this.speed = 1;
         this.moveMeTo = null;
@@ -21,7 +21,7 @@ class Hero extends Humanoid {
     }
 
     draw(ctx) {
-        ctx.fillStyle = this.color;
+        ctx.fillStyle = `rgba(${this.color.R}, ${this.color.G}, ${this.color.B}, ${this.color.A})`;
         ctx.fillRect(this.x, this.y, 30, 30);
     }
 
