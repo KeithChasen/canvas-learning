@@ -13,7 +13,7 @@ class Hero extends Humanoid {
         });
 
         addEventListener('click', () => {
-            this.moveMeTo = this.coordinate;
+            this.moveMeTo = { ...this.coordinate };
         })
     }
 
