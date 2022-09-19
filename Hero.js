@@ -6,7 +6,9 @@ class Hero extends Humanoid {
         this.moveMeTo = null;
 
         addEventListener('click', () => {
-            this.moveMeTo = { ...this.controls.coordinate };
+            if (this.controls.coordinate.y < innerHeight * .67) {
+                this.moveMeTo = { ...this.controls.coordinate };
+            }
         })
     }
 

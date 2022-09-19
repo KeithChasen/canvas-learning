@@ -1,12 +1,21 @@
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
 
-canvas.width = window.innerWidth * .7;
-canvas.height = window.innerHeight;
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight * .7;
+
+const canvasInfo = document.getElementById('canvasInfo');
+const ctxInfo = canvasInfo.getContext('2d');
+
+canvasInfo.width = window.innerWidth;
+canvasInfo.height = window.innerHeight * .3;
 
 addEventListener('resize', function () {
-    canvas.width = window.innerWidth * .7;
-    canvas.height = window.innerHeight;
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight * .7;
+
+    canvasInfo.width = window.innerWidth;
+    canvasInfo.height = window.innerHeight * .3;
 });
 
 let hero = null;

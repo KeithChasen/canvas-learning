@@ -11,24 +11,23 @@ body {
     background: black;
 }
 
-.settings {
+#canvas, #canvasInfo {
     position: absolute;
     border: 1px solid black;
-    top: 0;
-    right: 0;
-    width: 30vw;
-    height: 100vh;
-    background: white;
-    display: grid;
-    justify-content: center;
 }
 
-canvas {
-    position: absolute;
-    border: 1px solid black;
+#canvas {
     top: 0;
     left: 0;
-    width: 70vw;
-    height: 100vh;
+    width: 100vw;
+    height: 70vh;
     background: darkgray;
+}
+
+#canvasInfo {
+    top: 70%;
+    left: 0;
+    width: 100vw;
+    height: 30vh;
+    background: antiquewhite;
 }
