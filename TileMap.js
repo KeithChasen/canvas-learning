@@ -1,17 +1,33 @@
 class TileMap {
     constructor(layout, size) {
         this.layout = layout.default;
+        this.mapSize = this.layout.map.length
         this.size = size;
 
-        // console.log(this.layout, 'layout')
+        this.tileCoordinate = { x: null, y: null }
+
+        // addEventListener('mousemove', e => {
+        //     this.tileCoordinate.x = e.x;
+        //     this.tileCoordinate.y = e.y;
+        //
+        //     console.log(this.tileCoordinate, 'tileCoordinate')
+        // })
     }
 
     #parseTile(code) {
         switch(code) {
             case 'g':
-                return 'green';
+                return 'green'; // grass
             case 'w':
-                return 'grey';
+                return 'grey'; // wall
+            case 's':
+                return 'khaki'; // sand (currently road)
+            case 'p':
+                return 'sienna'; // path
+            case 'b':
+                return 'black'; // building
+            case 'a':
+                return 'deepskyblue'; // building
             default:
                 return 'green'
         }
