@@ -36,7 +36,7 @@ function init() {
 
     //todo: load particular map depending on level
     // todo: conditionally import json level files
-    map = new TileMap(testLevel);
+    map = new TileMap(testLevel, 40);
 }
 
 function animate() {
@@ -48,6 +48,8 @@ function animate() {
     // pileOfAlive.push(enemy.getPosition());
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    map.draw(ctx);
 
     hero.draw(ctx);
     enemy.draw(ctx);

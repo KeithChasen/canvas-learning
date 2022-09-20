@@ -11,7 +11,7 @@ class Hero extends Humanoid {
 
     draw(ctx) {
         ctx.fillStyle = `rgba(${this.color.R}, ${this.color.G}, ${this.color.B}, ${this.color.A})`;
-        ctx.fillRect(this.x, this.y, 30, 30);
+        ctx.fillRect(this.x, this.y, 20, 20);
     }
 
     update() {
