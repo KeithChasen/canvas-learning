@@ -34,16 +34,17 @@ class TileMap {
     draw(ctx) {
         for (let i = 0; i < this.layout.map.length; i++) {
             for (let j = 0; j < this.layout.map[i].length; j++) {
+
                 // todo: replace it with tiles once they're ready
                 const tileDetails = this.#parseTile(this.layout.map[i][j]);
 
+                localStorage.setItem(
+                    `tile-${j}-${i}`,
+                    JSON.stringify({ canGo: tileDetails.canGo })
+                );
+
                 if (this.selectedX === j + 1 && this.selectedY === i + 1) {
                     ctx.fillStyle = tileDetails.canGo ? 'grey' : 'salmon';
-                    localStorage.setItem('currentTile', JSON.stringify({
-                        x: this.selectedX,
-                        y: this.selectedY,
-                        canGo: tileDetails.canGo
-                    }));
                 } else {
                     ctx.fillStyle = tileDetails.color;
                 }

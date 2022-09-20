@@ -3,7 +3,6 @@ class Hero extends Humanoid {
         super(x, y, controls, new Color(0, 0, 255, 1))
 
         addEventListener('click', () => {
-
             const selectedX = Math.ceil(this.controls.coordinate.x / localStorage.getItem('tileSize'));
             const selectedY = Math.ceil(this.controls.coordinate.y / localStorage.getItem('tileSize'));
 
@@ -23,7 +22,13 @@ class Hero extends Humanoid {
     update() {
         // todo: check there's some obstacle among alive
 
+        let currentTile = null;
         if (this.moveMeTo) {
+            let tileId = `tile-${this.moveMeTo.x}-${this.moveMeTo.y}`;
+            currentTile = JSON.parse(localStorage.getItem(tileId));
+        }
+
+        if (this.moveMeTo && currentTile && currentTile.canGo) {
             if (this.moveMeTo.x !== this.x || this.moveMeTo.y !== this.y) {
                 this.walkTowards();
             } else {
