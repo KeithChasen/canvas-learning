@@ -1,3 +1,5 @@
+import * as testLevel from './levels/test.json' assert { type: 'json'};
+
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
 
@@ -21,6 +23,7 @@ addEventListener('resize', function () {
 let hero = null;
 let enemy = null;
 let controls = null;
+let map = null;
 
 // array contains all the moving HUMANOID's coordinates
 // available on the map
@@ -30,6 +33,10 @@ function init() {
     controls = new Controls();
     hero = new Hero(10, 10, controls);
     enemy = new Enemy(100, 100, controls);
+
+    //todo: load particular map depending on level
+    // todo: conditionally import json level files
+    map = new TileMap(testLevel);
 }
 
 function animate() {
