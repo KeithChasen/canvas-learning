@@ -27,4 +27,8 @@ class Enemy extends Humanoid {
             ctx.fillText('Attack', this.x, this.y - 10);
         }
     }
+
+    update() {
+
+    }
 }

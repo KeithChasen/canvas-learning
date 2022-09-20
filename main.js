@@ -22,6 +22,10 @@ let hero = null;
 let enemy = null;
 let controls = null;
 
+// array contains all the moving HUMANOID's coordinates
+// available on the map
+// let pileOfAlive = [];
+
 function init() {
     controls = new Controls();
     hero = new Hero(10, 10, controls);
@@ -30,6 +34,11 @@ function init() {
 
 function animate() {
     requestAnimationFrame(animate);
+
+    // pileOfAlive = [];
+    //
+    // pileOfAlive.push(hero.getPosition());
+    // pileOfAlive.push(enemy.getPosition());
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
