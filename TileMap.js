@@ -1,35 +1,38 @@
 class TileMap {
     constructor(layout, size) {
         this.layout = layout.default;
-        this.mapSize = this.layout.map.length
         this.size = size;
+
+        this.selectedX = null;
+        this.selectedY = null;
 
         this.tileCoordinate = { x: null, y: null }
 
-        // addEventListener('mousemove', e => {
-        //     this.tileCoordinate.x = e.x;
-        //     this.tileCoordinate.y = e.y;
-        //
-        //     console.log(this.tileCoordinate, 'tileCoordinate')
-        // })
+        addEventListener('mousemove', e => {
+            this.tileCoordinate.x = e.x;
+            this.tileCoordinate.y = e.y;
+
+            this.selectedX = Math.ceil(this.tileCoordinate.x / this.size);
+            this.selectedY = Math.ceil(this.tileCoordinate.y / this.size);
+        })
     }
 
     #parseTile(code) {
         switch(code) {
             case 'g':
-                return 'green'; // grass
+                return { color: 'green', canGo: true }; // grass
             case 'w':
-                return 'grey'; // wall
+                return { color: 'grey', canGo: false }; // wall
             case 's':
-                return 'khaki'; // sand (currently road)
+                return { color: 'khaki', canGo: true }; // sand (currently road)
             case 'p':
-                return 'sienna'; // path
+                return { color: 'sienna', canGo: true }; // path
             case 'b':
-                return 'black'; // building
+                return { color: 'black', canGo: false }; // building
             case 'a':
-                return 'deepskyblue'; // building
+                return { color: 'deepskyblue', canGo: false }; // water
             default:
-                return 'green'
+                return { color: 'green', canGo: true };
         }
     }
 
@@ -37,7 +40,14 @@ class TileMap {
         for (let i = 0; i < this.layout.map.length; i++) {
             for (let j = 0; j < this.layout.map[i].length; j++) {
                 // todo: replace it with tiles once they're ready
-                ctx.fillStyle = this.#parseTile(this.layout.map[i][j]);
+                const tileDetails = this.#parseTile(this.layout.map[i][j]);
+
+                if (this.selectedX === j + 1 && this.selectedY === i + 1) {
+                    ctx.fillStyle = tileDetails.canGo ? 'grey' : 'salmon';
+                } else {
+                    ctx.fillStyle = tileDetails.color;
+                }
+
                 const x = j * this.size;
                 const y = i * this.size;
                 ctx.fillRect(x, y, this.size, this.size);
