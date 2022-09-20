@@ -1,4 +1,7 @@
 import * as testLevel from './levels/test.json' assert { type: 'json'};
+import * as config from './config.json' assert { type: 'json'};
+
+const configuration = config.default
 
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
@@ -36,7 +39,7 @@ function init() {
 
     //todo: load particular map depending on level
     // todo: conditionally import json level files
-    map = new TileMap(testLevel, 40);
+    map = new TileMap(testLevel, configuration.tileSize);
 }
 
 function animate() {

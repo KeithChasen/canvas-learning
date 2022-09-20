@@ -6,14 +6,9 @@ class TileMap {
         this.selectedX = null;
         this.selectedY = null;
 
-        this.tileCoordinate = { x: null, y: null }
-
         addEventListener('mousemove', e => {
-            this.tileCoordinate.x = e.x;
-            this.tileCoordinate.y = e.y;
-
-            this.selectedX = Math.ceil(this.tileCoordinate.x / this.size);
-            this.selectedY = Math.ceil(this.tileCoordinate.y / this.size);
+            this.selectedX = Math.ceil(e.x / this.size);
+            this.selectedY = Math.ceil(e.y / this.size);
         })
     }
 
