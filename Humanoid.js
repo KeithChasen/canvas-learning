@@ -10,11 +10,11 @@ class Humanoid {
 
     walkTowards() {
         if (this.moveMeTo.x !== this.x) {
-            this.x += this.x < this.moveMeTo.x ? this.speed : -this.speed
+            this.x += (this.x < this.moveMeTo.x ? this.speed : -this.speed) / localStorage.getItem('tileSize');
         }
 
         if (this.moveMeTo.y !== this.y) {
-            this.y += this.y < this.moveMeTo.y ? this.speed : -this.speed
+            this.y += (this.y < this.moveMeTo.y ? this.speed : -this.speed) / localStorage.getItem('tileSize');
         }
     }
 

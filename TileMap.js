@@ -1,6 +1,6 @@
 class TileMap {
     constructor(layout, size) {
-        this.layout = layout.default;
+        this.layout = layout;
         this.size = size;
 
         this.selectedX = null;
@@ -39,6 +39,11 @@ class TileMap {
 
                 if (this.selectedX === j + 1 && this.selectedY === i + 1) {
                     ctx.fillStyle = tileDetails.canGo ? 'grey' : 'salmon';
+                    localStorage.setItem('currentTile', JSON.stringify({
+                        x: this.selectedX,
+                        y: this.selectedY,
+                        canGo: tileDetails.canGo
+                    }));
                 } else {
                     ctx.fillStyle = tileDetails.color;
                 }

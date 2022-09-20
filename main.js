@@ -1,7 +1,8 @@
 import * as testLevel from './levels/test.json' assert { type: 'json'};
 import * as config from './config.json' assert { type: 'json'};
 
-const configuration = config.default
+const configuration = config.default;
+const levelDetails = testLevel.default;
 
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
@@ -34,12 +35,14 @@ let map = null;
 
 function init() {
     controls = new Controls();
-    hero = new Hero(10, 10, controls);
+    hero = new Hero(levelDetails.heroStart.x, levelDetails.heroStart.y, controls);
     enemy = new Enemy(100, 100, controls);
+
+    localStorage.setItem('tileSize', configuration.tileSize);
 
     //todo: load particular map depending on level
     // todo: conditionally import json level files
-    map = new TileMap(testLevel, configuration.tileSize);
+    map = new TileMap(levelDetails, configuration.tileSize);
 }
 
 function animate() {
