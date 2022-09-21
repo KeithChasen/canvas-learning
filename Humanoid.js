@@ -8,20 +8,109 @@ class Humanoid {
         this.speed = 1;
     }
 
-    walkTowards() {
-        if (this.moveMeTo.x !== this.x) {
-            this.x += (this.x < this.moveMeTo.x ? this.speed : -this.speed) / localStorage.getItem('tileSize');
-        }
+    parsePosition() {
+        return { x: Math.floor(this.x), y: Math.floor(this.y) };
+    }
 
-        if (this.moveMeTo.y !== this.y) {
-            this.y += (this.y < this.moveMeTo.y ? this.speed : -this.speed) / localStorage.getItem('tileSize');
+    getNextXTile(){
+        const { x, y } = this.parsePosition();
+
+        const tileId = `tile-${x + 1}-${y}`;
+        return JSON.parse(localStorage.getItem(tileId));
+    }
+
+    getPrevXTile(){
+        const { x, y } = this.parsePosition();
+
+        const tileId = `tile-${x - 1}-${y}`;
+        return JSON.parse(localStorage.getItem(tileId));
+    }
+
+    getNextYTile(){
+        const { x, y } = this.parsePosition();
+
+        const tileId = `tile-${x}-${y + 1}`;
+        return JSON.parse(localStorage.getItem(tileId));
+    }
+
+    getPrevYTile(){
+        const { x, y } = this.parsePosition();
+
+        const tileId = `tile-${x}-${y - 1}`;
+        return JSON.parse(localStorage.getItem(tileId));
+    }
+
+    increaseX() {
+        const nextX = this.getNextXTile();
+
+        if (nextX.canGo) {
+            this.x += this.speed / localStorage.getItem('tileSize');
+        } else {
+            // todo: check +1 Y and -1 Y and make a decision
         }
     }
 
-    getPosition() {
-        return {
-            x: this.x,
-            y: this.y
+    decreaseX() {
+        const prevX = this.getPrevXTile();
+
+        if (prevX.canGo) {
+            this.x -= this.speed / localStorage.getItem('tileSize');
+        } else {
+            // todo: check +1 Y and -1 Y and make a decision
+        }
+    }
+
+    increaseY() {
+        const nextY = this.getNextYTile();
+
+        if (nextY.canGo) {
+            this.y += this.speed / localStorage.getItem('tileSize');
+        } else {
+            // todo: check +1 X and -1 X and make a decision
+        }
+    }
+
+    decreaseY() {
+        const prevY = this.getPrevYTile();
+
+        if (prevY.canGo) {
+            this.y -= this.speed / localStorage.getItem('tileSize');
+        } else {
+            // todo: check +1 X and -1 X and make a decision
+        }
+    }
+
+    walkCheckX() {
+        const { x } = this.parsePosition();
+
+        if (x < this.moveMeTo.x) {
+            this.increaseX();
+        }
+
+        if (x > this.moveMeTo.x) {
+            this.decreaseX();
+        }
+    }
+
+    walkCheckY() {
+        const { y } = this.parsePosition();
+
+        if (y < this.moveMeTo.y) {
+            this.increaseY();
+        }
+
+        if (y > this.moveMeTo.y) {
+            this.decreaseY();
+        }
+    }
+
+    walkTowards() {
+        if (this.moveMeTo.x !== this.x) {
+            this.walkCheckX();
+        }
+
+        if (this.moveMeTo.y !== this.y) {
+            this.walkCheckY();
         }
     }
 }

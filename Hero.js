@@ -20,8 +20,6 @@ class Hero extends Humanoid {
     }
 
     update() {
-        // todo: check there's some obstacle among alive
-
         let currentTile = null;
         if (this.moveMeTo) {
             let tileId = `tile-${this.moveMeTo.x}-${this.moveMeTo.y}`;
