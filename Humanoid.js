@@ -8,33 +8,49 @@ class Humanoid {
         this.speed = 1;
     }
 
-    parsePosition() {
-        return { x: Math.floor(this.x), y: Math.floor(this.y) };
+    parseFloorX() {
+        return Math.floor(this.x);
+    }
+
+    parseFloorY() {
+        return Math.floor(this.y);
+    }
+
+    parseCeilX() {
+        return Math.ceil(this.x);
+    }
+
+    parseCeilY() {
+        return Math.ceil(this.y);
     }
 
     getNextXTile(){
-        const { x, y } = this.parsePosition();
+        const x = this.parseFloorX();
+        const y = this.parseFloorY();
 
         const tileId = `tile-${x + 1}-${y}`;
         return JSON.parse(localStorage.getItem(tileId));
     }
 
     getPrevXTile(){
-        const { x, y } = this.parsePosition();
+        const x = this.parseCeilX();
+        const y = this.parseCeilY();
 
         const tileId = `tile-${x - 1}-${y}`;
         return JSON.parse(localStorage.getItem(tileId));
     }
 
     getNextYTile(){
-        const { x, y } = this.parsePosition();
+        const x = this.parseFloorX();
+        const y = this.parseFloorY();
 
         const tileId = `tile-${x}-${y + 1}`;
         return JSON.parse(localStorage.getItem(tileId));
     }
 
     getPrevYTile(){
-        const { x, y } = this.parsePosition();
+        const x = this.parseCeilX();
+        const y = this.parseCeilY();
 
         const tileId = `tile-${x}-${y - 1}`;
         return JSON.parse(localStorage.getItem(tileId));
@@ -81,27 +97,21 @@ class Humanoid {
     }
 
     walkCheckX() {
-        const { x } = this.parsePosition();
-
-        if (x < this.moveMeTo.x) {
+        if (this.x < this.moveMeTo.x) {
             this.increaseX();
         }
 
-        // todo: check where I messed up these measurements
-        if (x + 1 > this.moveMeTo.x) {
+        if (this.x > this.moveMeTo.x) {
             this.decreaseX();
         }
     }
 
     walkCheckY() {
-        const { y } = this.parsePosition();
-
-        if (y < this.moveMeTo.y) {
+        if (this.y < this.moveMeTo.y) {
             this.increaseY();
         }
 
-        // todo: check where I messed up these measurements
-        if (y + 1 > this.moveMeTo.y) {
+        if (this.y > this.moveMeTo.y) {
             this.decreaseY();
         }
     }
