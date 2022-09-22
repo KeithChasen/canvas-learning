@@ -21,7 +21,10 @@ class Hero extends Humanoid {
 
     update() {
         if (this.moveMeTo) {
-            if (this.moveMeTo.x !== this.x || this.moveMeTo.y !== this.y) {
+            const tileId = `tile-${this.moveMeTo.x}-${this.moveMeTo.y}`;
+            const canGo = JSON.parse(localStorage.getItem(tileId)).canGo;
+
+            if (canGo && (this.moveMeTo.x !== this.x || this.moveMeTo.y !== this.y)) {
                 this.walkTowards();
             } else {
                 this.moveMeTo = null;
