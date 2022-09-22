@@ -87,7 +87,8 @@ class Humanoid {
             this.increaseX();
         }
 
-        if (x > this.moveMeTo.x) {
+        // todo: check where I messed up these measurements
+        if (x + 1 > this.moveMeTo.x) {
             this.decreaseX();
         }
     }
@@ -99,7 +100,8 @@ class Humanoid {
             this.increaseY();
         }
 
-        if (y > this.moveMeTo.y) {
+        // todo: check where I messed up these measurements
+        if (y + 1 > this.moveMeTo.y) {
             this.decreaseY();
         }
     }
