@@ -1,6 +1,6 @@
 class Enemy extends Humanoid {
-    constructor(x ,y, controls) {
-        super(x, y, controls, new Color(255, 0, 0, 1));
+    constructor(x ,y, controls, map) {
+        super(x, y, controls, new Color(255, 0, 0, 1), map);
 
         this.attackText = false
 

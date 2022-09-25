@@ -35,8 +35,13 @@ let map = null;
 
 function init() {
     controls = new Controls();
-    hero = new Hero(levelDetails.heroStart.x, levelDetails.heroStart.y, controls);
-    enemy = new Enemy(100, 100, controls);
+    hero = new Hero(
+        levelDetails.heroStart.x,
+        levelDetails.heroStart.y,
+        controls,
+        levelDetails.map
+    );
+    enemy = new Enemy(100, 100, controls, levelDetails.map);
 
     localStorage.setItem('tileSize', configuration.tileSize);
 
