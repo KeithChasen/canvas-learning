@@ -62,8 +62,12 @@ function animate() {
 
     map.draw(ctx);
 
+    ctx.save();
+
     hero.draw(ctx);
     enemy.draw(ctx);
+
+    ctx.restore();
 
     hero.update();
 }

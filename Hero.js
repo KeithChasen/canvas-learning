@@ -7,8 +7,14 @@ class Hero extends Humanoid {
             const selectedY = Math.ceil(this.controls.coordinate.y / localStorage.getItem('tileSize'));
 
             if (this.controls.coordinate.y < innerHeight * .67) {
-                this.moveMeTo = { x: selectedX - 1, y: selectedY - 1 };
-                this.buildPath();
+                const x = selectedX - 1;
+                const y = selectedY - 1;
+                const tileId = `tile-${x}-${y}`;
+                const canGo = JSON.parse(localStorage.getItem(tileId)).canGo;
+                if (canGo) {
+                    this.moveMeTo = { x, y };
+                    this.buildPath();
+                }
             }
         })
     }
@@ -20,22 +26,37 @@ class Hero extends Humanoid {
         ctx.fillRect(x, y, 20, 20);
     }
 
-    update() {
+    checkMovement() {
         if (this.moveMeTo) {
-            const tileId = `tile-${this.moveMeTo.x}-${this.moveMeTo.y}`;
-            const canGo = JSON.parse(localStorage.getItem(tileId)).canGo;
+            const notThere = this.moveMeTo.x !== this.x || this.moveMeTo.y !== this.y;
 
-            if (
-                canGo &&
-                (this.moveMeTo.x !== this.x || this.moveMeTo.y !== this.y) &&
-                this.path.length
-            ) {
-                const shifted = this.path.shift();
-                this.walk(shifted)
-            } else {
+            if (!notThere) {
                 this.moveMeTo = null;
                 this.path = [];
+                this.nextPoint =  null;
+            }
+
+            if (!this.nextPoint && this.path.length) {
+                this.nextPoint = this.path.shift();
+            }
+
+            if (!this.nextPoint && !this.path.length) {
+                this.moveMeTo = null;
+            }
+
+            if (notThere && this.nextPoint) {
+                this.walk();
+            }
+
+            const arrivedToNext = this.nextPoint && this.nextPoint.x === this.x && this.nextPoint.y === this.y;
+
+            if (notThere && arrivedToNext) {
+                this.nextPoint = null;
             }
         }
+    }
+
+    update() {
+        this.checkMovement();
     }
 }

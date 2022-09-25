@@ -10,27 +10,29 @@ class Humanoid {
         this.path = [];
         this.pathfinder = new Pathfinder(map);
 
-        this.speed = 1;
+        this.nextPoint = null;
+
+        this.speed = 1 / localStorage.getItem('tileSize');
     }
 
     buildPath() {
         this.path = this.pathfinder.findPath({ x: this.x, y: this.y }, this.moveMeTo);
     }
 
-    walk(step) {
-        if (this.x < step.x) {
+    walk() {
+        if (this.x < this.nextPoint.x) {
             this.x += this.speed;
         }
 
-        if (this.x > step.x) {
+         if (this.x > this.nextPoint.x) {
             this.x -= this.speed;
         }
 
-        if (this.y < step.y) {
+         if (this.y < this.nextPoint.y) {
             this.y += this.speed;
         }
 
-        if (this.y > step.y) {
+         if (this.y > this.nextPoint.y) {
             this.y -= this.speed;
         }
     }
