@@ -5,8 +5,7 @@ class Hero extends Humanoid {
         addEventListener('click', () => {
             const selectedX = Math.ceil(this.controls.coordinate.x / localStorage.getItem('tileSize'));
             const selectedY = Math.ceil(this.controls.coordinate.y / localStorage.getItem('tileSize'));
-
-            if (this.controls.coordinate.y < innerHeight * .67) {
+            if (this.controls.coordinate.y < innerHeight) {
                 const x = selectedX - 1;
                 const y = selectedY - 1;
                 const tileId = `tile-${x}-${y}`;

@@ -1,7 +1,8 @@
 class TileMap {
-    constructor(layout, size) {
+    constructor(layout, size, camera) {
         this.layout = layout;
         this.size = size;
+        this.camera = camera;
 
         this.selectedX = null;
         this.selectedY = null;
@@ -31,10 +32,20 @@ class TileMap {
         }
     }
 
-    draw(ctx) {
-        for (let i = 0; i < this.layout.map.length; i++) {
-            for (let j = 0; j < this.layout.map[i].length; j++) {
+    calculateBoundaries() {
+        const x_min = Math.floor(this.camera.x / this.size);
+        const y_min = Math.floor(this.camera.y / this.size);
+        const x_max = Math.ceil((this.camera.x + this.camera.w) / this.size);
+        const y_max = Math.ceil((this.camera.y + this.camera.h) / this.size);
 
+        return { x_min, y_min, x_max, y_max };
+    }
+
+    draw(ctx) {
+        const { x_min, y_min, x_max, y_max } = this.calculateBoundaries();
+
+        for (let i = y_min; i < y_max; i++) {
+            for (let j = x_min; j < x_max; j++) {
                 // todo: replace it with tiles once they're ready
                 const tileDetails = this.#parseTile(this.layout.map[i][j]);
 
@@ -49,8 +60,8 @@ class TileMap {
                     ctx.fillStyle = tileDetails.color;
                 }
 
-                const x = j * this.size;
-                const y = i * this.size;
+                const x = j * this.size - this.camera.x;
+                const y = i * this.size - this.camera.y;
                 ctx.fillRect(x, y, this.size, this.size);
 
                 // todo: remove it as it is just for debugging to see the tiles

@@ -20,6 +20,9 @@ class Humanoid {
     }
 
     walk() {
+
+        console.log(this.x, this.y, this.nextPoint)
+
         if (this.x < this.nextPoint.x) {
             this.x += this.speed;
         }

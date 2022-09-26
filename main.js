@@ -8,26 +8,18 @@ const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
 
 canvas.width = window.innerWidth;
-canvas.height = window.innerHeight * .7;
-
-const canvasInfo = document.getElementById('canvasInfo');
-const ctxInfo = canvasInfo.getContext('2d');
-
-canvasInfo.width = window.innerWidth;
-canvasInfo.height = window.innerHeight * .3;
+canvas.height = window.innerHeight;
 
 addEventListener('resize', function () {
     canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight * .7;
-
-    canvasInfo.width = window.innerWidth;
-    canvasInfo.height = window.innerHeight * .3;
+    canvas.height = window.innerHeight;
 });
 
 let hero = null;
 let enemy = null;
 let controls = null;
 let map = null;
+let camera = null;
 
 // array contains all the moving HUMANOID's coordinates
 // available on the map
@@ -45,9 +37,11 @@ function init() {
 
     localStorage.setItem('tileSize', configuration.tileSize);
 
+    camera = new Camera(1000, 1000, 800, 800);
+
     //todo: load particular map depending on level
     // todo: conditionally import json level files
-    map = new TileMap(levelDetails, configuration.tileSize);
+    map = new TileMap(levelDetails, configuration.tileSize, camera);
 }
 
 function animate() {
