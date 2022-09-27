@@ -21,10 +21,6 @@ let controls = null;
 let map = null;
 let camera = null;
 
-// array contains all the moving HUMANOID's coordinates
-// available on the map
-// let pileOfAlive = [];
-
 function init() {
     controls = new Controls();
 

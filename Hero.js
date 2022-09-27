@@ -10,8 +10,8 @@ class Hero extends Humanoid {
             const selectedY = Math.ceil(initY);
 
             if (this.controls.coordinate.y < innerHeight && this.controls.coordinate.x < innerWidth) {
-                const x = selectedX - 1;
-                const y = selectedY - 1;
+                let x = selectedX - 1;
+                let y = selectedY - 1;
 
                 const tileId = `tile-${x}-${y}`;
                 const canGo = JSON.parse(localStorage.getItem(tileId)).canGo;

@@ -59,8 +59,8 @@ class Pathfinder {
     }
 
     isFreeTile(x, y) {
-        x = parseFloorX(x);
-        y = parseFloorY(y);
+        x = parseFloor(x);
+        y = parseFloor(y);
 
         const tileId = `tile-${x}-${y}`;
         const tile = JSON.parse(localStorage.getItem(tileId));

@@ -1,9 +1,9 @@
-function parseFloorX(x) {
-    return Math.abs(Math.floor(x));
+function parseFloor(val) {
+    return Math.abs(Math.floor(val));
 }
 
-function parseFloorY(y) {
-    return Math.abs(Math.floor(y));
+function parseCeil(val) {
+    return Math.abs(Math.floor(val));
 }
 
 function cameraPoint(hero, camera, map) {
@@ -14,7 +14,10 @@ function cameraPoint(hero, camera, map) {
 }
 
 function calculateCameraVal(hero, map, camera, val) {
-    if (hero[val] < (val === 'x' ? 4 : 2) || hero[val] >= map[0].length - (val === 'x' ? 6 : 4))
+    if (
+        hero[val] < (val === 'x' ? 4 : 2) ||
+        hero[val] > map[0].length - (val === 'x' ? 6 : 4)
+    )
         return  camera[val] / camera.size;
     else
         return hero[val] - (val === 'x' ? 4 : 2);

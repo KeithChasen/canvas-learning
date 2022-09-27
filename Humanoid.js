@@ -16,11 +16,14 @@ class Humanoid {
 
         this.nextPoint = null;
 
-        this.speed = 1 / this.size;
+        this.speed = 2 / this.size;
     }
 
     buildPath() {
-        this.path = this.pathfinder.findPath({ x: this.x, y: this.y }, this.moveMeTo);
+        this.path = this.pathfinder.findPath({
+            x: parseCeil(this.x),
+            y: parseCeil(this.y)
+        }, this.moveMeTo);
     }
 
     walk() {
@@ -43,8 +46,8 @@ class Humanoid {
 
     draw(ctx) {
         ctx.fillStyle = `rgba(${this.color.R}, ${this.color.G}, ${this.color.B}, ${this.color.A})`;
-        const x = (this.x * this.size) - this.camera.x;
-        const y = (this.y * this.size) - this.camera.y;
+        const x = ((this.x * this.size) - this.camera.x) + this.size / 4;
+        const y = ((this.y * this.size) - this.camera.y) + this.size / 4;
         ctx.fillRect(x, y, 20, 20);
     }
 }
