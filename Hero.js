@@ -1,28 +1,27 @@
 class Hero extends Humanoid {
-    constructor(x, y, controls, map) {
-        super(x, y, controls, new Color(0, 0, 255, 1), map)
+    constructor(x, y, controls, map, camera, size) {
+        super(x, y, controls, new Color(0, 0, 255, 1), map, camera, size)
 
         addEventListener('click', () => {
-            const selectedX = Math.ceil(this.controls.coordinate.x / localStorage.getItem('tileSize'));
-            const selectedY = Math.ceil(this.controls.coordinate.y / localStorage.getItem('tileSize'));
-            if (this.controls.coordinate.y < innerHeight) {
+            const initX = this.controls.coordinate.x / this.size + this.camera.x / this.size;
+            const initY = this.controls.coordinate.y / this.size + this.camera.y / this.size;
+
+            const selectedX = Math.ceil(initX);
+            const selectedY = Math.ceil(initY);
+
+            if (this.controls.coordinate.y < innerHeight && this.controls.coordinate.x < innerWidth) {
                 const x = selectedX - 1;
                 const y = selectedY - 1;
+
                 const tileId = `tile-${x}-${y}`;
                 const canGo = JSON.parse(localStorage.getItem(tileId)).canGo;
+
                 if (canGo) {
                     this.moveMeTo = { x, y };
                     this.buildPath();
                 }
             }
         })
-    }
-
-    draw(ctx) {
-        ctx.fillStyle = `rgba(${this.color.R}, ${this.color.G}, ${this.color.B}, ${this.color.A})`;
-        const x = this.x * localStorage.getItem('tileSize') + localStorage.getItem('tileSize') / 4;
-        const y = this.y * localStorage.getItem('tileSize') + localStorage.getItem('tileSize') / 4;
-        ctx.fillRect(x, y, 20, 20);
     }
 
     checkMovement() {

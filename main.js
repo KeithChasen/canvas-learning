@@ -27,17 +27,34 @@ let camera = null;
 
 function init() {
     controls = new Controls();
-    hero = new Hero(
-        levelDetails.heroStart.x,
-        levelDetails.heroStart.y,
-        controls,
-        levelDetails.map
-    );
-    enemy = new Enemy(100, 100, controls, levelDetails.map);
 
     localStorage.setItem('tileSize', configuration.tileSize);
 
-    camera = new Camera(1000, 1000, 800, 800);
+    camera = new Camera(
+        0,
+        0,
+        10 * configuration.tileSize,
+        6 * configuration.tileSize,
+        configuration.tileSize
+    );
+
+    hero = new Hero(
+        levelDetails.hero.x,
+        levelDetails.hero.y,
+        controls,
+        levelDetails.map,
+        camera,
+        configuration.tileSize
+    );
+
+    enemy = new Enemy(
+        levelDetails.enemy.x,
+        levelDetails.enemy.y,
+        controls,
+        levelDetails.map,
+        camera,
+        configuration.tileSize
+    );
 
     //todo: load particular map depending on level
     // todo: conditionally import json level files
@@ -47,23 +64,18 @@ function init() {
 function animate() {
     requestAnimationFrame(animate);
 
-    // pileOfAlive = [];
-    //
-    // pileOfAlive.push(hero.getPosition());
-    // pileOfAlive.push(enemy.getPosition());
-
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     map.draw(ctx);
 
-    ctx.save();
-
     hero.draw(ctx);
     enemy.draw(ctx);
 
-    ctx.restore();
-
     hero.update();
+
+    const { putCameraX, putCameraY } = cameraPoint(hero, camera, levelDetails.map)
+
+    camera.update(putCameraX, putCameraY)
 }
 
 init();

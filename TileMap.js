@@ -8,7 +8,7 @@ class TileMap {
         this.selectedY = null;
 
         addEventListener('mousemove', e => {
-            this.selectedX = Math.ceil(e.x / this.size);
+            this.selectedX = Math.ceil(e.x / this.size) ;
             this.selectedY = Math.ceil(e.y / this.size);
         })
     }
@@ -54,7 +54,7 @@ class TileMap {
                     JSON.stringify({ canGo: tileDetails.canGo })
                 );
 
-                if (this.selectedX === j + 1 && this.selectedY === i + 1) {
+                if (this.selectedX + x_min === j + 1 && this.selectedY + y_min === i + 1) {
                     ctx.fillStyle = tileDetails.canGo ? 'grey' : 'salmon';
                 } else {
                     ctx.fillStyle = tileDetails.color;
