@@ -1,8 +1,5 @@
-import * as testLevel from './levels/test.json' assert { type: 'json'};
-import * as config from './config.json' assert { type: 'json'};
-
-const configuration = config.default;
-const levelDetails = testLevel.default;
+import levelDetails from './levels/test.json' assert { type: 'json'};
+import configuration from './config.json' assert { type: 'json'};
 
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
