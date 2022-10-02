@@ -7,6 +7,16 @@ class TileMap {
         this.selectedX = null;
         this.selectedY = null;
 
+        for (let i = 0; i < this.layout.map.length; i++) {
+            for (let j = 0; j < this.layout.map.length; j++) {
+                const tileDetails = this.#parseTile(this.layout.map[i][j]);
+                localStorage.setItem(
+                    `tile-${j}-${i}`,
+                    JSON.stringify({ canGo: tileDetails.canGo })
+                );
+            }
+        }
+
         addEventListener('mousemove', e => {
             this.selectedX = Math.ceil(e.x / this.size) ;
             this.selectedY = Math.ceil(e.y / this.size);
@@ -48,11 +58,6 @@ class TileMap {
             for (let j = x_min; j < x_max; j++) {
                 // todo: replace it with tiles once they're ready
                 const tileDetails = this.#parseTile(this.layout.map[i][j]);
-
-                localStorage.setItem(
-                    `tile-${j}-${i}`,
-                    JSON.stringify({ canGo: tileDetails.canGo })
-                );
 
                 if (this.selectedX + x_min === j + 1 && this.selectedY + y_min === i + 1) {
                     ctx.fillStyle = tileDetails.canGo ? 'grey' : 'salmon';
