@@ -7,22 +7,30 @@ class Pathfinder {
 
     findPath(start, end) {
         start.parent = null
-        let frontier = [start]
+
+        let pointsToVisit = [start]
+
         let neighbors = []
+
         let visited = []
+
         let current_point = start
-        while (frontier.length > 0 && (current_point.x !== end.x || current_point.y !== end.y)) {
-            current_point = frontier.shift()
-            if(Object.keys(visited).includes(`${current_point.x}_${current_point.y}`)) {
+
+        while (pointsToVisit.length > 0 && (current_point.x !== end.x || current_point.y !== end.y)) {
+            current_point = pointsToVisit.shift()
+
+            if (visited.hasOwnProperty(`${current_point.x}_${current_point.y}`)) {
                 continue
             }
 
             neighbors = this.getTileNeighbors(current_point)
-            neighbors.forEach(function (n_tile) {
-                if(!Object.keys(visited).includes(`${n_tile.x}_${n_tile.y}`)) {
-                    frontier.push(n_tile)
+
+            neighbors.forEach(tile => {
+                if(!visited.hasOwnProperty(`${tile.x}_${tile.y}`)) {
+                    pointsToVisit.push(tile)
                 }
             })
+            
             visited[`${current_point.x}_${current_point.y}`] = current_point
         }
 
@@ -41,17 +49,19 @@ class Pathfinder {
     getTileNeighbors(tile) {
         let neighbors = []
 
-        if(tile.x > 0 && this.isFreeTile(tile.x - 1, tile.y)) {
+        if (tile.x > 0 && this.isFreeTile(tile.x - 1, tile.y)) {
             neighbors.push({ x: tile.x - 1, y: tile.y, parent: tile })
         }
-        if(tile.y > 0 && this.isFreeTile(tile.x, tile.y - 1)) {
+
+        if (tile.y > 0 && this.isFreeTile(tile.x, tile.y - 1)) {
             neighbors.push({ x: tile.x, y: tile.y - 1, parent: tile })
         }
 
-        if(tile.y < this.map_height - 1 && this.isFreeTile(tile.x, tile.y + 1)) {
+        if (tile.y < this.map_height - 1 && this.isFreeTile(tile.x, tile.y + 1)) {
             neighbors.push({ x: tile.x, y: tile.y + 1, parent: tile})
         }
-        if(tile.x < this.map_width - 1 && this.isFreeTile(tile.x + 1, tile.y)) {
+
+        if (tile.x < this.map_width - 1 && this.isFreeTile(tile.x + 1, tile.y)) {
             neighbors.push({ x: tile.x + 1, y: tile.y, parent: tile})
         }
 
@@ -64,8 +74,6 @@ class Pathfinder {
 
         const tileId = `tile-${x}-${y}`;
         const tile = JSON.parse(localStorage.getItem(tileId));
-        const canGo = tile.canGo;
-
-        return !!canGo;
+        return tile.canGo;
     }
 }
