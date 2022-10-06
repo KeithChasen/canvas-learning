@@ -49,20 +49,44 @@ class Pathfinder {
     getTileNeighbors(tile) {
         let neighbors = []
 
+        // left
         if (tile.x > 0 && this.isFreeTile(tile.x - 1, tile.y)) {
             neighbors.push({ x: tile.x - 1, y: tile.y, parent: tile })
         }
 
+        // left up
+        if (tile.x > 0 && tile.y > 0 && this.isFreeTile(tile.x - 1, tile.y - 1)) {
+            neighbors.push({ x: tile.x - 1, y: tile.y - 1, parent: tile })
+        }
+
+        // left down
+        if (tile.y < this.map_height - 1 && tile.x > 0  && this.isFreeTile(tile.x - 1, tile.y + 1)) {
+            neighbors.push({ x: tile.x - 1, y: tile.y + 1, parent: tile })
+        }
+
+        // up
         if (tile.y > 0 && this.isFreeTile(tile.x, tile.y - 1)) {
             neighbors.push({ x: tile.x, y: tile.y - 1, parent: tile })
         }
 
+        // down
         if (tile.y < this.map_height - 1 && this.isFreeTile(tile.x, tile.y + 1)) {
             neighbors.push({ x: tile.x, y: tile.y + 1, parent: tile})
         }
 
+        // right
         if (tile.x < this.map_width - 1 && this.isFreeTile(tile.x + 1, tile.y)) {
             neighbors.push({ x: tile.x + 1, y: tile.y, parent: tile})
+        }
+
+        // right up
+        if (tile.x < this.map_width - 1 && tile.y > 0 && this.isFreeTile(tile.x + 1, tile.y - 1)) {
+            neighbors.push({ x: tile.x + 1, y: tile.y - 1, parent: tile })
+        }
+
+        // right down
+        if (tile.x < this.map_height - 1 && tile.y < this.map_height - 1  && this.isFreeTile(tile.x + 1, tile.y + 1)) {
+            neighbors.push({ x: tile.x + 1, y: tile.y + 1, parent: tile })
         }
 
         return neighbors
