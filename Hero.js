@@ -26,9 +26,9 @@ class Hero extends Humanoid {
 
     checkMovement() {
         if (this.moveMeTo) {
-            const notThere = this.moveMeTo.x !== this.x || this.moveMeTo.y !== this.y;
+            const arrived = this.moveMeTo.x === this.x && this.moveMeTo.y === this.y;
 
-            if (!notThere) {
+            if (arrived) {
                 this.moveMeTo = null;
                 this.path = [];
                 this.nextPoint =  null;
@@ -38,17 +38,13 @@ class Hero extends Humanoid {
                 this.nextPoint = this.path.shift();
             }
 
-            if (!this.nextPoint && !this.path.length) {
-                this.moveMeTo = null;
-            }
-
-            if (notThere && this.nextPoint) {
+            if (!arrived && this.nextPoint) {
                 this.walk();
             }
 
             const arrivedToNext = this.nextPoint && this.nextPoint.x === this.x && this.nextPoint.y === this.y;
 
-            if (notThere && arrivedToNext) {
+            if (!arrived && arrivedToNext) {
                 this.nextPoint = null;
             }
         }
