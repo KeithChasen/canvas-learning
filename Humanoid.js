@@ -5,6 +5,8 @@ class Humanoid {
         this.camera = camera;
         this.size = size;
 
+        this.humanoidSize = 20;
+
         this.x = x;
         this.y = y;
 
@@ -46,8 +48,8 @@ class Humanoid {
 
     draw(ctx) {
         ctx.fillStyle = `rgba(${this.color.R}, ${this.color.G}, ${this.color.B}, ${this.color.A})`;
-        const x = ((this.x * this.size) - this.camera.x) + this.size / 4;
-        const y = ((this.y * this.size) - this.camera.y) + this.size / 4;
-        ctx.fillRect(x, y, 20, 20);
+        const x = ((this.x * this.size) - this.camera.x - this.humanoidSize / 2) + this.size / 2;
+        const y = ((this.y * this.size) - this.camera.y - this.humanoidSize / 2) + this.size / 2;
+        ctx.fillRect(x, y, this.humanoidSize, this.humanoidSize);
     }
 }
