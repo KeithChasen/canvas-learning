@@ -1,8 +1,16 @@
 class TileMap {
-    constructor(layout, size, camera) {
+    constructor(layout, pictureTileSize, size, camera, texturePath, textures) {
         this.layout = layout;
+        this.pictureTileSize = pictureTileSize;
+
         this.size = size;
         this.camera = camera;
+
+        this.levelTileMaps = [...textures.map(texture => {
+            const image = new Image();
+            image.src = `textures/${texturePath}/${texture}.png`;
+            return image;
+        })];
 
         this.selectedX = null;
         this.selectedY = null;
@@ -51,28 +59,65 @@ class TileMap {
         return { x_min, y_min, x_max, y_max };
     }
 
+    drawNonImageTile(ctx, tileDetails, j, i) {
+        ctx.fillStyle = tileDetails.color;
+
+        const x = j * this.size - this.camera.x;
+        const y = i * this.size - this.camera.y;
+        ctx.fillRect(x, y, this.size, this.size);
+
+        // todo: remove it as it is just for debugging to see the tiles
+        ctx.strokeStyle = 'black';
+        ctx.lineWidth = 2;
+        ctx.strokeRect(x, y, this.size, this.size);
+    }
+
+    parseImageTile(tile) {
+        const tileArr = tile.split('-');
+        const coordinates = tileArr[1].split(':');
+
+        return {
+          fileIndex: tileArr[0],
+          y: coordinates[0],
+          x: coordinates[1],
+          canGo: tileArr[2]
+        };
+    }
+
     draw(ctx) {
         const { x_min, y_min, x_max, y_max } = this.calculateBoundaries();
 
         for (let i = y_min; i < y_max; i++) {
             for (let j = x_min; j < x_max; j++) {
-                // todo: replace it with tiles once they're ready
-                const tileDetails = this.#parseTile(this.layout.map[i][j]);
+                const tile = this.layout.map[i][j];
+                // const tileDetails = tile.length > 0 ? this.parseImageTile(tile) : this.#parseTile(tile);
+                const tileDetails = this.#parseTile(tile);
 
                 if (this.selectedX + x_min === j + 1 && this.selectedY + y_min === i + 1) {
                     ctx.fillStyle = tileDetails.canGo ? 'grey' : 'salmon';
+                    this.drawNonImageTile(ctx, tileDetails, j, i)
+                } else if (tile.length > 1) {
+                    const { fileIndex, y, x, canGo } = this.parseImageTile(tile)
+                    const file = this.levelTileMaps[fileIndex];
+                    const pictStartX = x * this.pictureTileSize;
+                    const pictStartY = y * this.pictureTileSize;
+                    const placeX = j * this.size - this.camera.x;
+                    const placeY = i * this.size - this.camera.y;
+
+                    ctx.drawImage(
+                        file,
+                        pictStartX,
+                        pictStartY,
+                        this.pictureTileSize,
+                        this.pictureTileSize,
+                        placeX,
+                        placeY,
+                        this.size,
+                        this.size,
+                    );
                 } else {
-                    ctx.fillStyle = tileDetails.color;
+                    this.drawNonImageTile(ctx, tileDetails, j, i)
                 }
-
-                const x = j * this.size - this.camera.x;
-                const y = i * this.size - this.camera.y;
-                ctx.fillRect(x, y, this.size, this.size);
-
-                // todo: remove it as it is just for debugging to see the tiles
-                ctx.strokeStyle = 'black';
-                ctx.lineWidth = 2;
-                ctx.strokeRect(x, y, this.size, this.size);
             }
         }
     }

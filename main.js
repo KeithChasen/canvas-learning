@@ -1,9 +1,10 @@
-import levelDetails from './levels/test.json' assert { type: 'json'};
+import levelDetails from './levels/1.json' assert { type: 'json'};
 
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
 
-let tileSize = 64;
+let pictureTileSize = levelDetails.tileSize;
+let tileSize = pictureTileSize * levelDetails.resolutionCoefficient;
 
 canvas.width = innerWidth;
 canvas.height = innerHeight;
@@ -50,7 +51,14 @@ function init() {
 
     //todo: load particular map depending on level
     // todo: conditionally import json level files
-    map = new TileMap(levelDetails, tileSize, camera);
+    map = new TileMap(
+        levelDetails,
+        pictureTileSize,
+        tileSize,
+        camera,
+        levelDetails.texturePath,
+        levelDetails.textures
+    );
 }
 
 function animate() {
