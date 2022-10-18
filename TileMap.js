@@ -2,28 +2,17 @@ class TileMap {
     constructor(layout, pictureTileSize, size, camera, texturePath, textures) {
         this.layout = layout;
         this.pictureTileSize = pictureTileSize;
-
         this.size = size;
         this.camera = camera;
-
         this.levelTileMaps = [...textures.map(texture => {
             const image = new Image();
             image.src = `textures/${texturePath}/${texture}.png`;
             return image;
         })];
-
         this.selectedX = null;
         this.selectedY = null;
 
-        for (let i = 0; i < this.layout.map.length; i++) {
-            for (let j = 0; j < this.layout.map.length; j++) {
-                const tileDetails = this.#parseTile(this.layout.map[i][j]);
-                localStorage.setItem(
-                    `tile-${j}-${i}`,
-                    JSON.stringify({ canGo: tileDetails.canGo })
-                );
-            }
-        }
+        this.#loadMapRestrictions();
 
         addEventListener('mousemove', e => {
             this.selectedX = Math.ceil(e.x / this.size) ;
@@ -31,20 +20,25 @@ class TileMap {
         })
     }
 
+    #loadMapRestrictions() {
+        for (let i = 0; i < this.layout.map.length; i++) {
+            for (let j = 0; j < this.layout.map.length; j++) {
+                const tile = this.layout.map[i][j];
+                const tileDetails = tile.length > 1 ? this.parseImageTile(tile) : this.#parseTile(tile);
+                localStorage.setItem(
+                    `tile-${j}-${i}`,
+                    JSON.stringify({ canGo: tileDetails.canGo })
+                );
+            }
+        }
+    }
+
     #parseTile(code) {
         switch(code) {
             case 'g':
-                return { color: 'green', canGo: true }; // grass
-            case 'w':
-                return { color: 'grey', canGo: false }; // wall
-            case 's':
-                return { color: 'khaki', canGo: true }; // sand (currently road)
-            case 'p':
-                return { color: 'sienna', canGo: true }; // path
+                return { color: 'green', canGo: true }; // grass - will be used mostly for drawing levels
             case 'b':
-                return { color: 'black', canGo: false }; // building
-            case 'a':
-                return { color: 'deepskyblue', canGo: false }; // water
+                return { color: 'black', canGo: false }; // black (empty) - to fill some gaps and spaces
             default:
                 return { color: 'green', canGo: true };
         }
@@ -61,15 +55,8 @@ class TileMap {
 
     drawNonImageTile(ctx, tileDetails, j, i) {
         ctx.fillStyle = tileDetails.color;
-
-        const x = j * this.size - this.camera.x;
-        const y = i * this.size - this.camera.y;
+        const { x, y } = this.#findRelativeCoordinate(j, i);
         ctx.fillRect(x, y, this.size, this.size);
-
-        // todo: remove it as it is just for debugging to see the tiles
-        ctx.strokeStyle = 'black';
-        ctx.lineWidth = 2;
-        ctx.strokeRect(x, y, this.size, this.size);
     }
 
     parseImageTile(tile) {
@@ -77,11 +64,46 @@ class TileMap {
         const coordinates = tileArr[1].split(':');
 
         return {
-          fileIndex: tileArr[0],
-          y: coordinates[0],
-          x: coordinates[1],
-          canGo: tileArr[2]
+            fileIndex: tileArr[0],
+            y: coordinates[0],
+            x: coordinates[1],
+            canGo: tileArr[2] === '1',
+            interact: tileArr[2] === '2',
+            interactScript: typeof tileArr[3] !== "undefined" ? tileArr[3] : null
         };
+    }
+
+    #findRelativeCoordinate(j, i) {
+        return {
+            x: j * this.size - this.camera.x,
+            y: i * this.size - this.camera.y
+        };
+    }
+
+    #drawPossibleWayTile(ctx, tileDetails, j, i) {
+        ctx.fillStyle = tileDetails.canGo ? 'grey' : 'salmon';
+        const { x, y } = this.#findRelativeCoordinate(j, i)
+        ctx.fillRect(x, y, this.size, this.size);
+    }
+
+    #drawImageTile(ctx, tileDetails, j, i) {
+        const { fileIndex, y, x } = tileDetails
+        const file = this.levelTileMaps[fileIndex];
+        const pictStartX = x * this.pictureTileSize;
+        const pictStartY = y * this.pictureTileSize;
+        const { x: placeX, y: placeY } = this.#findRelativeCoordinate(j, i)
+
+        ctx.drawImage(
+            file,
+            pictStartX,
+            pictStartY,
+            this.pictureTileSize,
+            this.pictureTileSize,
+            placeX,
+            placeY,
+            this.size,
+            this.size,
+        );
     }
 
     draw(ctx) {
@@ -90,34 +112,18 @@ class TileMap {
         for (let i = y_min; i < y_max; i++) {
             for (let j = x_min; j < x_max; j++) {
                 const tile = this.layout.map[i][j];
-                // const tileDetails = tile.length > 0 ? this.parseImageTile(tile) : this.#parseTile(tile);
-                const tileDetails = this.#parseTile(tile);
-
+                const tileDetails = tile.length > 1 ? this.parseImageTile(tile) : this.#parseTile(tile);
                 if (this.selectedX + x_min === j + 1 && this.selectedY + y_min === i + 1) {
-                    ctx.fillStyle = tileDetails.canGo ? 'grey' : 'salmon';
-                    this.drawNonImageTile(ctx, tileDetails, j, i)
-                } else if (tile.length > 1) {
-                    const { fileIndex, y, x, canGo } = this.parseImageTile(tile)
-                    const file = this.levelTileMaps[fileIndex];
-                    const pictStartX = x * this.pictureTileSize;
-                    const pictStartY = y * this.pictureTileSize;
-                    const placeX = j * this.size - this.camera.x;
-                    const placeY = i * this.size - this.camera.y;
-
-                    ctx.drawImage(
-                        file,
-                        pictStartX,
-                        pictStartY,
-                        this.pictureTileSize,
-                        this.pictureTileSize,
-                        placeX,
-                        placeY,
-                        this.size,
-                        this.size,
-                    );
-                } else {
-                    this.drawNonImageTile(ctx, tileDetails, j, i)
+                    this.#drawPossibleWayTile(ctx, tileDetails, j, i);
+                    continue;
                 }
+
+                if (tile.length > 1) {
+                    this.#drawImageTile(ctx, tileDetails, j, i)
+                    continue;
+                }
+
+                this.drawNonImageTile(ctx, tileDetails, j, i)
             }
         }
     }
