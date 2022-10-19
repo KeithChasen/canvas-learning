@@ -1,9 +1,19 @@
 class TileMap {
-    constructor(layout, pictureTileSize, size, camera, texturePath, textures) {
+    constructor(
+        layout,
+        pictureTileSize,
+        size,
+        camera,
+        texturePath,
+        textures,
+        textureMapping
+    ) {
         this.layout = layout;
         this.pictureTileSize = pictureTileSize;
         this.size = size;
         this.camera = camera;
+        this.textureMapping = textureMapping;
+
         this.levelTileMaps = [...textures.map(texture => {
             const image = new Image();
             image.src = `textures/${texturePath}/${texture}.png`;
@@ -62,13 +72,15 @@ class TileMap {
     parseImageTile(tile) {
         const tileArr = tile.split('-');
         const coordinates = tileArr[1].split(':');
+        const fileIndex = this.textureMapping.indexOf(tileArr[0]);
 
         return {
-            fileIndex: tileArr[0],
+            fileIndex,
             y: coordinates[0],
             x: coordinates[1],
             canGo: tileArr[2] === '1',
             interact: tileArr[2] === '2',
+            // todo: fetch interact script from level json (x, y)
             interactScript: typeof tileArr[3] !== "undefined" ? tileArr[3] : null
         };
     }
@@ -113,6 +125,7 @@ class TileMap {
             for (let j = x_min; j < x_max; j++) {
                 const tile = this.layout.map[i][j];
                 const tileDetails = tile.length > 1 ? this.parseImageTile(tile) : this.#parseTile(tile);
+
                 if (this.selectedX + x_min === j + 1 && this.selectedY + y_min === i + 1) {
                     this.#drawPossibleWayTile(ctx, tileDetails, j, i);
                     continue;

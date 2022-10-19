@@ -1,12 +1,12 @@
 ## Tile map code
 
-1-6:0-0
+bw-6:0-0
 
 - index of tile file
 
-[basic, bricks, house-1, walls]
+[broken-walls, basic, bricks, house-1, walls]
 
-so 1 -> bricks
+so bw -> broken-walls
 
 - y:x coordinate of particular tile
 

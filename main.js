@@ -57,7 +57,8 @@ function init() {
         tileSize,
         camera,
         levelDetails.texturePath,
-        levelDetails.textures
+        levelDetails.textures,
+        levelDetails.textureMapping,
     );
 }
 
