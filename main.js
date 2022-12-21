@@ -1,4 +1,4 @@
-import levelDetails from './levels/1.json' assert { type: 'json'};
+const levelDetails = returnLevel();
 
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');

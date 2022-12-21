@@ -1,6 +1,6 @@
-{
-  "name": "Village",
-  "map": [
+const level = {
+    name: "Village",
+    map: [
     ["b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b"],
     ["b", "bw-1:0-0", "bw-1:1-0", "bw-1:2-0", "bw-1:2-0", "bw-1:3-0", "bw-1:2-0", "bw-1:1-0", "bw-1:2-0", "bw-1:3-0", "bw-1:3-0", "bw-1:2-0", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b"],
     ["b", "bw-2:0-0", "gd-2:1-1", "gd-2:1-1", "gd-2:1-1", "gd-2:1-1", "gd-2:1-1", "gd-2:1-1", "gd-2:1-1", "gd-2:1-1", "gd-2:1-1", "gd-2:1-1", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b"],
@@ -48,9 +48,9 @@
     ["b", "bw-2:0-0", "dg-2:0-1", "dg-2:1-1", "dg-2:4-1", "gd-2:1-1", "gd-2:1-1", "dg-2:0-1", "dg-2:1-1", "wd-2:0-0", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b"],
     ["b", "bw-2:0-0", "dg-4:1-1", "dg-4:2-1", "dg-4:3-1", "gd-2:1-1", "gd-2:1-1", "dg-4:1-1", "dg-3:1-1", "wd-2:0-0", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b"],
     ["b", "bw-3:0-0", "bw-3:1-0", "bw-3:2-0", "bw-3:3-0", "bw-3:2-0", "bw-3:2-0", "bw-3:2-0", "dg-2:0-1", "wd-2:0-0", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b"]
-  ],
-  "texturePath": "1",
-  "textures": [
+],
+    texturePath: "1",
+    textures: [
     "bricks-in-grass",
     "bridge-vertical",
     "broken-walls",
@@ -60,9 +60,12 @@
     "grass-in-dirt",
     "horizontal-bridge",
     "water-in-dirt",
-    "house-1"
-  ],
-  "textureMapping": [
+    "house-1",
+    "house-2",
+    "house-3",
+    "house-4"
+],
+    textureMapping: [
     "bg",
     "bv",
     "bw",
@@ -72,16 +75,23 @@
     "gd",
     "hb",
     "wd",
-    "h1"
-  ],
-  "tileSize": 16,
-  "resolutionCoefficient": 4,
-  "hero": {
-    "x":2,
-    "y":2
-  },
-  "enemy": {
-    "x": 3,
-    "y": 2
-  }
+    "h1",
+    "h2",
+    "h3",
+    "h"
+],
+    tileSize: 16,
+    resolutionCoefficient: 4,
+    hero: {
+        x:2,
+        y:2
+    },
+    enemy: {
+        x: 3,
+        y: 2
+    }
+};
+
+function returnLevel() {
+    return level;
 }
