@@ -92,6 +92,6 @@ const level = {
     }
 };
 
-function returnLevel() {
+function level1() {
     return level;
 }

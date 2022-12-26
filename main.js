@@ -1,4 +1,8 @@
-const levelDetails = returnLevel();
+
+//todo: load level conditionally
+const levelLoader = new LevelLoader(1);
+
+const levelDetails = levelLoader.loadLevel();
 
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
